@@ -20,3 +20,8 @@ Our main blocker was that we could not obtain the data because the paper is old 
 ./run_code.sh
 ```
 
+## Installing dependencies ##
+```bash
+conda install -c conda-forge -c bioconda python=3.12 numpy=1.26 pandas=2.3 scipy=1.16 matplotlib=3.10 scikit-learn=1.7 h5py=3.15 diamond=2.1.18
+```
+
