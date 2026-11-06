@@ -15,6 +15,8 @@ Our main blocker was that we could not obtain the data because the paper is old 
 - We use 06_metagenome_validation.py to build predicted enzyme abundances and compare them to the output of 05_annotate_ec.sh.
 - 07_metagenome_validation_figure.py plots the comparison from the previous step
 
+Additionally, **fetch_l4_data.py** was used to download data in the folder l4_data. 
+
 ## Usage ##
 ```bash
 ./run_code.sh
