@@ -1,0 +1,168 @@
+(base) MacBook-Pro-457:DSC180A_replication claire$ python fetch_l4_data.py mgnify        --out l4_data
+Listing analyses in MGYS00000257 ...
+  20 analyses found
+  wrote l4_data/mgnify/analyses_overview.csv  (20 rows)
+  0 amplicon analyses selected (see analyses_overview.csv for all)
+  wrote l4_data/mgnify/downloads_manifest.csv  (0 rows)
+  wrote l4_data/mgnify/order_counts_long.csv  (0 rows)
+
+Done. Send me: analyses_overview.csv, order_counts_long.csv, downloads_manifest.csv
+(and any files under mgnify/files/ if order_counts_long.csv is empty).
+(base) MacBook-Pro-457:DSC180A_replication claire$ python fetch_l4_data.py mgrast-probe  --out l4_data
+   {'id': '4443360.3', 'name': '151- Jan_Day_prefiltered repeats removed', 'sequence_type': 'Unknown', 'collection_date': ''}
+   {'id': '4443361.3', 'name': '152-Jan_Night_Prefilter repeats removed', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4443362.3', 'name': '153-April_Day_Prefilter repeats removed', 'sequence_type': 'Unknown', 'collection_date': ''}
+   {'id': '4443363.3', 'name': '154_Apr-Night_Prefilter repeats removed', 'sequence_type': 'Unknown', 'collection_date': ''}
+   {'id': '4443365.3', 'name': '156-Aug_4pm_prefilter repeats removed', 'sequence_type': 'Unknown', 'collection_date': ''}
+   {'id': '4443366.3', 'name': '157-Aug_10pm_prefilter repeats removed', 'sequence_type': 'Unknown', 'collection_date': ''}
+   {'id': '4443367.3', 'name': '158-Aug_4am_prefilter repeats removed', 'sequence_type': 'Unknown', 'collection_date': ''}
+   {'id': '4443368.3', 'name': '159-Aug_10am_prefilter repeats removed', 'sequence_type': 'Unknown', 'collection_date': ''}
+   {'id': '4445064.3', 'name': 'Apr_Day', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4445065.3', 'name': 'Aug_10pm_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4445066.3', 'name': 'Aug_4am_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4445067.3', 'name': 'Apr_Night_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4445068.3', 'name': 'Aug_4pm_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4445069.3', 'name': 'Jan_Day', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4445070.3', 'name': 'Jan_Night_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4444077.3', 'name': 'Apr_Day_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4444083.3', 'name': 'August_10am_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+   {'id': '4445081.3', 'name': 'Jan-Day_pf', 'sequence_type': 'WGS', 'collection_date': ''}
+  wrote l4_data/mgrast/probe.csv  (18 rows)
+
+Send me probe.csv. We need the 8 whose sequence type is WGS/metagenome (not metatranscriptome).
+(base) MacBook-Pro-457:DSC180A_replication claire$ python fetch_l4_data.py mgrast-fetch  --out l4_data --supp3 supp_table_3.txt
+- 4445064.3
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+    ... server is still computing, waiting
+Traceback (most recent call last):
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 317, in cmd_mgrast_fetch
+    j = mg_matrix(params)
+        ^^^^^^^^^^^^^^^^^
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 300, in mg_matrix
+    raise RuntimeError(f"unexpected matrix response: {str(j)[:300]}")
+RuntimeError: unexpected matrix response: {'type': 'object', 'requests': [{'parameters': {'body': {}, 'options': {}, 'required': {}}, 'method': 'GET', 'name': 'info', 'attributes': 'self', 'request': 'https://api.mg-rast.org/status', 'type': 'synchronous', 'description': 'Returns description of parameters and attributes.'}, {'request': 'htt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 394, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 390, in main
+    a.fn(a)
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 319, in cmd_mgrast_fetch
+    j = mg_matrix({**params, "id": mgid(i.split(".")[0])})
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 292, in mg_matrix
+    j = mg_get("matrix/function", params)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 222, in mg_get
+    raise last
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 219, in mg_get
+    return get(f"{base}/{path}", params).json()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 57, in get
+    raise last
+  File "/Users/claire/Documents/DSC180A_replication/fetch_l4_data.py", line 51, in get
+    r.raise_for_status()
+  File "/Users/claire/miniforge3/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://api.mg-rast.org/1/matrix/function?id=mgm4445064&source=Subsystems&result_type=abundance&group_level=function&evalue=3&identity=50&length=50
+(base) MacBook-Pro-457:DSC180A_replication claire$ 

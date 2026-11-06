@@ -1,0 +1,10 @@
+set,analysis,n,r,perm_p
+11-13 UTC (paper rule),"pooled, raw fCO2",30,-0.6046353867515913,0.000999900009999
+11-13 UTC (paper rule),within-week anomalies,30,-0.1857430132231135,0.3321667833216678
+11-13 UTC (paper rule),cell-week means (pseudoreplication reduced),13,-0.668826698428962,0.0184981501849815
+11-13 UTC (paper rule),within week 2008-09-22,27,-0.27566671172596563,0.11394302848575712
+all hours (sensitivity),"pooled, raw fCO2",214,-0.46888003510989096,9.999000099990002e-05
+all hours (sensitivity),within-week anomalies,214,-0.33430585184985967,9.999000099990002e-05
+all hours (sensitivity),cell-week means (pseudoreplication reduced),44,-0.5191157133029053,0.0005999400059994001
+all hours (sensitivity),within week 2008-06-23,9,0.6192544011625665,0.01249375312343828
+all hours (sensitivity),within week 2008-09-22,205,-0.3984575785169782,0.0004997501249375312

@@ -1,0 +1,33 @@
+diamond v2.1.18.172 (C) Max Planck Society for the Advancement of Science, Benjamin J. Buchfink, University of Tuebingen
+Documentation, support and updates available at http://www.diamondsearch.org
+Please cite: http://dx.doi.org/10.1038/s41592-021-01101-x Nature Methods (2021)
+
+#CPU threads: 8
+Scoring parameters: (Matrix=BLOSUM62 Lambda=0.267 K=0.041 Penalties=11/1)
+Database input file: /Users/claire/Documents/DSC180A_replication/external_data/swissprot/uniprot_sprot.fasta.gz
+Opening the database file...  [0.017s]
+Loading sequences...  [2.59s]
+Masking sequences...  [1.095s]
+Writing sequences...  [0.134s]
+Hashing sequences...  [0.063s]
+Loading sequences...  [0s]
+Writing trailer...  [0.004s]
+Closing the input file...  [0s]
+Closing the database file...  [0s]
+
+Database sequences  575748
+  Database letters  209017843
+     Database hash  885766afd2423d0a34d3ebffed3e7522
+        Total time  3.907000s
+Tue Nov  3 17:46:15 PST 2026 MGYA00000241
+Tue Nov  3 17:46:33 PST 2026 MGYA00000243
+Tue Nov  3 17:47:05 PST 2026 MGYA00000245
+Tue Nov  3 17:47:36 PST 2026 MGYA00000247
+Tue Nov  3 17:48:00 PST 2026 MGYA00000249
+Tue Nov  3 17:48:23 PST 2026 MGYA00000251
+Tue Nov  3 17:48:40 PST 2026 MGYA00000253
+Tue Nov  3 17:49:09 PST 2026 MGYA00000255
+Tue Nov  3 17:49:29 PST 2026 MGYA00000257
+Tue Nov  3 17:49:43 PST 2026 MGYA00000259
+diamond version 2.1.18
+Tue Nov  3 17:50:07 PST 2026 done

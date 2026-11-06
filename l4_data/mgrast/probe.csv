@@ -1,0 +1,19 @@
+id,found,name,sequence_type,created_on,collection_date,collection_time,status
+4443360.3,yes,151- Jan_Day_prefiltered repeats removed,Unknown,,,,public
+4443361.3,yes,152-Jan_Night_Prefilter repeats removed,WGS,,,,public
+4443362.3,yes,153-April_Day_Prefilter repeats removed,Unknown,,,,public
+4443363.3,yes,154_Apr-Night_Prefilter repeats removed,Unknown,,,,public
+4443365.3,yes,156-Aug_4pm_prefilter repeats removed,Unknown,,,,public
+4443366.3,yes,157-Aug_10pm_prefilter repeats removed,Unknown,,,,public
+4443367.3,yes,158-Aug_4am_prefilter repeats removed,Unknown,,,,public
+4443368.3,yes,159-Aug_10am_prefilter repeats removed,Unknown,,,,public
+4445064.3,yes,Apr_Day,WGS,,,,public
+4445065.3,yes,Aug_10pm_pf,WGS,,,,public
+4445066.3,yes,Aug_4am_pf,WGS,,,,public
+4445067.3,yes,Apr_Night_pf,WGS,,,,public
+4445068.3,yes,Aug_4pm_pf,WGS,,,,public
+4445069.3,yes,Jan_Day,WGS,,,,public
+4445070.3,yes,Jan_Night_pf,WGS,,,,public
+4444077.3,yes,Apr_Day_pf,WGS,,,,public
+4444083.3,yes,August_10am_pf,WGS,,,,public
+4445081.3,yes,Jan-Day_pf,WGS,,,,public
