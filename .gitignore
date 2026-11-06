@@ -1,6 +1,7 @@
 # Large files (>50 MB) live in big_files/ and are not pushed to GitHub.
 # See README.md ("Large files") for what each one is and how to get it back.
 big_files/
+qiita_data/
 
 # OS clutter
 .DS_Store

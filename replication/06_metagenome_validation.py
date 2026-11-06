@@ -18,7 +18,19 @@ how common each enzyme is in genomes in general:
   * null 1: uniform community (all 24 Orders equal)  -> how much r needs no sample information
   * null 2: Order abundances permuted among the 24 Orders within each sample (1000x)
   * within-EC, across-sample correlation (does the prediction track differences BETWEEN samples?)
+
+Order-abundance source (--order-source):
+  mgnify       (default) 16S reads found inside the same shotgun metagenomes (MGnify v1.0).
+  qiita        16S V4 amplicons from Qiita study 1240 (L4, 2009-2010; table 46780, closed-ref
+               Greengenes 13_8). No 2008 amplicons are public, so each metagenome is matched by
+               SEASON: mean Order composition of all DNA samples within +/-7 days of the same
+               calendar day (any year); surface ("T") samples if any have >=1000 reads, otherwise
+               bottom ("B"). Surface DNA samples Jan-Apr are empty in this table.
+  qiita_bottom sensitivity: as qiita but bottom samples only, for every date.
+Outputs for the Qiita sources carry the suffix _qiita16S / _qiita16S_bottom.
 """
+import argparse
+import datetime as dt
 import gzip
 import json
 from collections import defaultdict
@@ -33,6 +45,12 @@ MG = ROOT / "external_data/mgnify_L4"
 DM = ROOT / "replication/derived/diamond"
 RES = ROOT / "replication/results"; RES.mkdir(parents=True, exist_ok=True)
 rng = np.random.default_rng(0)
+ap = argparse.ArgumentParser()
+ap.add_argument("--order-source", choices=["mgnify", "qiita", "qiita_bottom"], default="mgnify")
+SRC = ap.parse_args().order_source
+SUFFIX = {"mgnify": "", "qiita": "_qiita16S", "qiita_bottom": "_qiita16S_bottom"}[SRC]
+QIITA_BIOM = ROOT / "qiita_data/BIOM/46780/otu_table.biom"
+WINDOW_DAYS, MIN_READS = 7, 1000
 
 E = pd.read_csv(ROOT / "supp_table_1.txt", sep="\t", index_col=0)          # 1715 EC x 24 Orders
 COMMON = set(pd.read_csv(ROOT / "supp_table_3.txt", sep="\t").iloc[:, 0].astype(str).str.strip())
@@ -46,6 +64,9 @@ SAMPLES = {
     "MGYA00000245": "Aug_4pm", "MGYA00000247": "Aug_10pm", "MGYA00000249": "Aug_4am",
     "MGYA00000251": "Aug_10am",
 }
+SAMPLE_DATE = {"Jan_Day": "2008-01-28", "Jan_Night": "2008-01-28", "Apr_Day": "2008-04-22",
+               "Apr_Night": "2008-04-22", "Aug_4pm": "2008-08-26", "Aug_10pm": "2008-08-26",
+               "Aug_4am": "2008-08-27", "Aug_10am": "2008-08-27"}
 
 
 # ---------------- Order abundances from 16S reads in each metagenome -----------
@@ -62,23 +83,74 @@ def order_of(tax):
     return o if o in ORDERS else None
 
 
-order_counts, n16s = {}, {}
-for a in SAMPLES:
-    j = json.load(open(next((MG / a).glob("*_otu.biom"))))
-    rowsum = np.zeros(len(j["rows"]))
-    for r, c, v in j["data"]:
-        rowsum[r] += v
-    cnt = defaultdict(float)
-    for row, s in zip(j["rows"], rowsum):
-        o = order_of(row["metadata"]["taxonomy"])
-        if o:
-            cnt[o] += s
-    order_counts[a] = pd.Series(cnt, index=ORDERS).fillna(0)
-    n16s[a] = (rowsum.sum(), sum(cnt.values()))
-oc = pd.DataFrame(order_counts).T
-print("16S reads per run (total, assigned to one of the 24 Orders):")
-for a, (t, k) in n16s.items():
-    print(f"  {a} {SAMPLES[a]:9s} {t:5.0f} {k:5.0f}")
+def mgnify_order_counts():
+    order_counts, n16s = {}, {}
+    for a in SAMPLES:
+        j = json.load(open(next((MG / a).glob("*_otu.biom"))))
+        rowsum = np.zeros(len(j["rows"]))
+        for r, c, v in j["data"]:
+            rowsum[r] += v
+        cnt = defaultdict(float)
+        for row, s in zip(j["rows"], rowsum):
+            o = order_of(row["metadata"]["taxonomy"])
+            if o:
+                cnt[o] += s
+        order_counts[a] = pd.Series(cnt, index=ORDERS).fillna(0)
+        n16s[a] = (rowsum.sum(), sum(cnt.values()))
+    print("16S reads per run (total, assigned to one of the 24 Orders):")
+    for a, (t, k) in n16s.items():
+        print(f"  {a} {SAMPLES[a]:9s} {t:5.0f} {k:5.0f}")
+    return pd.DataFrame(order_counts).T
+
+
+def qiita_order_counts(bottom_only):
+    """Season-matched Order composition (%, 24 Orders) per metagenome run from Qiita study 1240."""
+    import h5py
+    f = h5py.File(QIITA_BIOM, "r")
+    sids = [x.decode() for x in f["sample/ids"][:]]
+    orders = [order_of([t.decode() for t in row]) for row in f["observation/metadata/taxonomy"][:]]
+    ip, idx, dat = f["sample/matrix/indptr"][:], f["sample/matrix/indices"][:], f["sample/matrix/data"][:]
+    rows, info = {}, []
+    for sid, a, b in zip(sids, ip[:-1], ip[1:]):
+        code, kind = sid.split(".")[1][:4], sid.split(".")[1][4:].upper()   # DDMM + T/B/TCDNA/BCDNA
+        if kind not in ("T", "B"):
+            continue                                            # DNA only; cDNA (RNA) excluded
+        cnt = defaultdict(float)
+        for k, v in zip(idx[a:b], dat[a:b]):
+            if orders[k]:
+                cnt[orders[k]] += v
+        rows[sid] = pd.Series(cnt, index=ORDERS).fillna(0)
+        info.append(dict(qiita_sample=sid, ddmm=code, depth="surface" if kind == "T" else "bottom",
+                         total_reads=float(dat[a:b].sum()), reads_in_24_orders=sum(cnt.values())))
+    info = pd.DataFrame(info)
+    info = info[info.reads_in_24_orders >= MIN_READS]
+    pct = pd.DataFrame(rows).T
+    pct = pct.div(pct.sum(axis=1), axis=0) * 100
+
+    def doy_gap(ddmm, date):
+        d = dt.date.fromisoformat(date)
+        g = abs(dt.date(d.year, int(ddmm[2:]), int(ddmm[:2])).timetuple().tm_yday - d.timetuple().tm_yday)
+        return min(g, 365 - g)
+
+    out, used = {}, []
+    for a, name in SAMPLES.items():
+        date = SAMPLE_DATE[name]
+        near = info[[doy_gap(c, date) <= WINDOW_DAYS for c in info.ddmm]]
+        surf = near[near.depth == "surface"]
+        pick = near[near.depth == "bottom"] if (bottom_only or surf.empty) else surf
+        assert len(pick), f"no Qiita sample within {WINDOW_DAYS} d of {date}"
+        out[a] = pct.loc[pick.qiita_sample].mean()
+        used += [dict(mgnify_analysis=a, metagenome=name, metagenome_date=date, **r,
+                      days_apart=doy_gap(r["ddmm"], date)) for r in pick.to_dict("records")]
+    used = pd.DataFrame(used)
+    used.to_csv(RES / f"qiita16S_samples_used{SUFFIX}.csv", index=False)
+    print("Qiita samples used per metagenome date (season-matched, DNA):")
+    print(used.drop_duplicates(["metagenome_date", "qiita_sample"])[
+        ["metagenome_date", "qiita_sample", "depth", "days_apart", "reads_in_24_orders"]].to_string(index=False))
+    return pd.DataFrame(out).T[ORDERS]
+
+
+oc = mgnify_order_counts() if SRC == "mgnify" else qiita_order_counts(SRC == "qiita_bottom")
 
 
 # ---------------- Observed EC counts from DIAMOND vs Swiss-Prot ----------------
@@ -184,16 +256,17 @@ for label, groups in [("8 time points (duplicate runs summed)", dict(primary_gro
         out, ab, obs, pred, srows = run(label, groups, pid)
         results += out
         if label.startswith("8") and pid == 50:
-            ab.to_csv(RES / "mg16S_order_abundance_8samples.csv")
-            obs.to_csv(RES / "observed_ec_counts_sprot_pid50.csv")
-            pred.to_csv(RES / "predicted_ec_log2qn_8samples.csv")
+            ab.to_csv(RES / (f"order_abundance_8samples{SUFFIX}.csv" if SUFFIX else "mg16S_order_abundance_8samples.csv"))
+            obs.to_csv(RES / "observed_ec_counts_sprot_pid50.csv")   # identical for every source
+            pred.to_csv(RES / f"predicted_ec_log2qn_8samples{SUFFIX}.csv")
             print("\nDIAMOND hits (pid>=50) and EC-bearing hits per run:")
             for a, g, nh, ne in srows:
                 print(f"  {a} {g:9s} hits {nh:7d}  EC hits {ne:7d}")
-            print("\nOrder relative abundance (%) from 16S reads:\n",
+            print(f"\nOrder relative abundance (%) from 16S ({SRC}):\n",
                   (ab.div(ab.sum(axis=1), axis=0) * 100).round(1).T.to_string())
 
 res = pd.DataFrame(results)
-res.to_csv(RES / "metagenome_validation_correlations.csv", index=False)
+res.insert(0, "order_source", SRC)
+res.to_csv(RES / f"metagenome_validation_correlations{SUFFIX}.csv", index=False)
 pd.set_option("display.width", 250)
 print("\n", res.round(4).T.to_string())

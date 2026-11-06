@@ -85,6 +85,26 @@ Limitations:
 - The metagenomes were 1.6 µm-prefiltered, so particle-attached taxa are under-represented.
 - The annotation database and pipeline differ from the paper's.
 
+**6b. Same test with independent 16S amplicons (Qiita study 1240).** The MGnify Order abundances above come from the same metagenomes as the observed ECs, so the two sides aren't independent. As an alternative I used 16S V4 amplicons from L4 (Qiita study 1240, `L4_Time_Series2009-2010`, Illumina HiSeq, EMP 515f/806r). The table used is 46780: closed-reference Greengenes 13_8, about 34k reads per sample.
+- **Why only season matching was possible.** The 2003–2008 V6 series that MAP was trained on isn't publicly available. Gilbert et al. 2012 cite ENA ERP000118, but that project now holds only the 2008 metagenomes and metatranscriptomes; only 12 V6 runs from 2007 are public (SRP001108). Qiita study 1240 has no 2008 samples, and its sample names give day and month but no year.
+- **Matching rule (fixed before looking at results).** For each metagenome date, I averaged the Order composition of all DNA samples (cDNA excluded) within ±7 days of the same calendar day, in any year. Surface samples were used where any had at least 1000 reads, otherwise bottom samples. Surface DNA samples from Jan–Apr are empty in this table, so January uses bottom samples. Samples used: `results/qiita16S_samples_used_qiita16S.csv`.
+- Run with `06_metagenome_validation.py --order-source qiita` (or `qiita_bottom`) and the same flag for 07.
+
+| Order source (identity ≥ 50 %, 899 ECs, 8 samples) | pooled r | uniform null | permuted mean (P) | within-EC median r (% > 0) |
+|---|---|---|---|---|
+| MGnify 16S reads in the metagenomes | 0.640 | 0.612 | 0.588 (0.001) | 0.10 (57 %) |
+| Qiita amplicons, season-matched | 0.602 | 0.612 | 0.592 (0.12) | 0.02 (51 %) |
+| Qiita amplicons, bottom only | 0.590 | 0.612 | 0.591 (0.53) | 0.06 (54 %) |
+
+Interpretation:
+- With independent, season-matched communities, the prediction does **no better than a uniform community** and isn't distinguishable from shuffled Order abundances.
+- The small advantage seen with MGnify 16S (+0.03 over the uniform null) may therefore partly reflect the shared source of both sides, though it could also reflect the better date match.
+- These comparisons are weak tests:
+  - Season matching across years (2009–10 vs 2008) adds year-to-year variation.
+  - Only three distinct communities (Jan, Apr, Aug) are compared, because day/night samples from the same date share one amplicon profile.
+  - V4 primer bias differs from the paper's V6.
+- They don't test the paper's MAP-predicted communities, which remain unavailable.
+
 ## Caveats / assumptions
 - The land mask is inferred (identical profiles), not taken from the authors.
 - The paper used SOCAT v2 (2013); v3 (2015) is the oldest release on the PMEL ERDDAP server. The paper's SOCAT filters, grid-matching rule and time zone aren't fully specified.
