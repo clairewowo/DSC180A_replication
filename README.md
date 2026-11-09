@@ -18,7 +18,7 @@ Our main blocker was that we could not obtain the data because the paper is old 
 Additionally, **fetch_l4_data.py** was used to download data in the folder l4_data. 
 
 ## AI Usage
-We used Claude code for a significant portion of this replication and we were told by our mentor to do this. A lot of the process with finding data was done by hand by going through the paper, browsing the web, etc. Since our input data was not the same as the original data from the paper, there was not a "ground truth" for us to test our code on. 
+We used Claude code for a significant portion of this replication and we were told by our mentor to do this. A lot of the process with finding data was done by hand by going through the paper, browsing the web, etc. Since our input data was not the same as the original data from the paper, there was not a "ground truth" for us to test our code on. The prompts/ conversation are in AI_usage.md
 
 ## Usage ##
 ```bash
